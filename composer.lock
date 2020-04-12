@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ef532e623ebfb24c6a937e5f04f895fc",
+    "content-hash": "a47b6f0db8afa1b9ea94c4903d873c4f",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -2399,6 +2399,27 @@
                 "string"
             ],
             "time": "2019-10-30T19:59:35+00:00"
+        },
+        {
+            "name": "mutan/docker-for-sf",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@github.com:22/mutan/docker-for-sf.git",
+                "reference": "3d04927d751e3c325e969686347e1c2f2cdfb19f"
+            },
+            "type": "library",
+            "license": [
+                "MIT License"
+            ],
+            "authors": [
+                {
+                    "name": "Akim Gubanov",
+                    "email": "akim.gubanov@gmail.com"
+                }
+            ],
+            "description": "Docker compose for fast local dev environment",
+            "time": "2020-03-03T10:03:56+00:00"
         },
         {
             "name": "nikic/php-parser",

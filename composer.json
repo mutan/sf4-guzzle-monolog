@@ -14,6 +14,7 @@
         "symfony/yaml": "4.4.*"
     },
     "require-dev": {
+        "mutan/docker-for-sf": "^1.0",
         "symfony/maker-bundle": "^1.15"
     },
     "config": {
@@ -60,5 +61,12 @@
             "allow-contrib": false,
             "require": "4.4.*"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "ssh://git@github.com:22/mutan/docker-for-sf.git",
+            "reference": "master"
+        }
+    ]
 }
