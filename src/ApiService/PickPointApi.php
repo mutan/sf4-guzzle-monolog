@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace App\ApiService;
 
 use Exception;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
+use Psr\Log\LoggerInterface;
 
 class PickPointApi
 {
@@ -18,8 +21,9 @@ class PickPointApi
     /** @var GuzzleService */
     private $guzzleService;
 
-    public function __construct(GuzzleService $guzzleService)
+    public function __construct(GuzzleService $guzzleService, LoggerInterface $pickpointLogger)
     {
+        $guzzleService->setLogger($pickpointLogger);
         $this->guzzleService = $guzzleService;
     }
 
@@ -46,11 +50,38 @@ class PickPointApi
 
         $options['body'] = json_encode($params);
 
+        try {
+            $response = $this->guzzleService->getClient()->request($method,  self::URL . $urlAddon, $options);
+        } catch (ClientException $e) {
+            // 400-level errors
+            throw new CourierApiException(sprintf(
+                'Pickpoint API client error. Code: %s. Message: $%',
+                $e->getCode(),
+                $e->getMessage()
+            ));
+        } catch (ServerException $e) {
+            // 500-level errors
+            throw new TemporaryException(sprintf(
+                'Pickpoint API server error. Code: %s. Message: $%',
+                $e->getCode(),
+                $e->getMessage()
+            ));
 
-        $response = $this->guzzleService->getClient()->request($method,  self::URL . $urlAddon, $options);
-        dump((string) $response->getBody()); die('ok');
+            /*echo Psr7\str($e->getRequest());
+            if ($e->hasResponse()) {
+                echo Psr7\str($e->getResponse());
+            }*/
+        }
 
-        return [];
+        $data = (string) $response->getBody();
+
+        dump($data);
+
+        if (!$data) {
+            throw new CourierApiException('Pickpoint API empty body.');
+        }
+
+        return \GuzzleHttp\json_decode($data, true);
     }
 
     /**
@@ -69,7 +100,9 @@ class PickPointApi
 
     public function getReestrNumber(): array
     {
-        return $this->execute('POST', 'getreestrnumber');
+        $result = $this->execute('POST', 'getreestrnumber', ['InvoiceNumber' => 'RP2653730']);
+
+        return $result;
     }
 
     public function getCityList(): array

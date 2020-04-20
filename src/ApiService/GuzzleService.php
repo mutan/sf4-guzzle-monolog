@@ -15,11 +15,14 @@ class GuzzleService
     const RESPONSE_FORMAT = "{code} {phrase} {res_body}";
 
     /** @var LoggerInterface */
-    private $guzzleLogger;
+    private $logger;
 
-    public function __construct(LoggerInterface $guzzleLogger)
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger): void
     {
-        $this->guzzleLogger = $guzzleLogger;
+        $this->logger = $logger;
     }
 
     public function getClient(): Client
@@ -47,7 +50,7 @@ class GuzzleService
     private function createLogMiddleware(string $messageFormat): callable
     {
         return Middleware::log(
-            $this->guzzleLogger,
+            $this->logger,
             new MessageFormatter($messageFormat)
         );
     }

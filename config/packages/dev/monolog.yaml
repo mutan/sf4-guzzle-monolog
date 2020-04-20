@@ -1,11 +1,18 @@
 monolog:
-    channels: ['guzzle']
+    channels: ['pickpoint', 'dpd']
     handlers:
-        guzzle:
+        pickpoint:
             type: stream
-            path: "%kernel.logs_dir%/guzzle.%kernel.environment%.log"
+            bubble: false
+            path: "%kernel.logs_dir%/pickpoint.%kernel.environment%.log"
             level: debug
-            channels: ['guzzle']
+            channels: ['pickpoint']
+        dpd:
+            type: stream
+            bubble: false
+            path: "%kernel.logs_dir%/dpd.%kernel.environment%.log"
+            level: debug
+            channels: ['dpd']
         main:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"
