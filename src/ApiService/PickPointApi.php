@@ -21,9 +21,9 @@ class PickPointApi
     /** @var GuzzleService */
     private $guzzleService;
 
-    public function __construct(GuzzleService $guzzleService, LoggerInterface $pickpointLogger)
+    public function __construct(GuzzleService $guzzleService, LoggerInterface $logger)
     {
-        $guzzleService->setLogger($pickpointLogger);
+        $guzzleService->setLogger($logger);
         $this->guzzleService = $guzzleService;
     }
 

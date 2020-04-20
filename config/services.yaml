@@ -28,3 +28,7 @@ services:
 
     monolog.formatter.guzzle:
         class: App\ApiService\LineFormatterWithMicroseconds
+
+    App\ApiService\PickPointApi:
+        arguments:
+            $logger: '@monolog.logger.pickpoint'
